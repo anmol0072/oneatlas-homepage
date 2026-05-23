@@ -1,50 +1,51 @@
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
+@config "../tailwind.config.ts";
+@import "tailwindcss";
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: 228 100% 99%; /* #FAFBFF */
+    --foreground: 213 60% 14%; /* #0A2540 */
+    
+    --card: 0 0% 100%;
+    --card-foreground: 213 60% 14%;
+    
+    --popover: 0 0% 100%;
+    --popover-foreground: 213 60% 14%;
+    
+    --primary: 243 100% 68%; /* #635BFF */
+    --primary-foreground: 0 0% 100%;
+    
+    --secondary: 212 50% 96%; /* #F6F9FC */
+    --secondary-foreground: 213 60% 14%;
+    
+    --muted: 213 20% 96%; /* #EFF3F8 */
+    --muted-foreground: 215 13% 47%; /* #697386 */
+    
+    --accent: 338 100% 67%; /* #FF5996 */
+    --accent-foreground: 0 0% 100%;
+    
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 210 24% 91%; /* #E3E8EE */
+    --input: 210 24% 91%;
+    --ring: 243 100% 68%;
+    
+    --radius: 0.5rem;
   }
 }
 
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
-}
-
-body {
-  color: var(--foreground);
-  background: var(--background);
-}
-
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-.imgDark {
-  display: none;
-}
-
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
+@layer base {
+  * {
+    border-color: #E3E8EE;
   }
-
-  .imgLight {
-    display: none;
+  body {
+    background-color: #FAFBFF;
+    color: #425466;
   }
-  .imgDark {
-    display: unset;
+  
+  h1, h2, h3, h4, h5, h6 {
+    color: #0A2540;
+    font-weight: bold;
+    letter-spacing: -0.025em;
   }
 }

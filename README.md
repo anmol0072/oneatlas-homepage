@@ -1,159 +1,102 @@
-# Turborepo starter
+# OneAtlas.dev - AI-Native Internal Tools Platform
 
-This Turborepo starter is maintained by the Turborepo core team.
+![OneAtlas Hero](https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=2070&ixlib=rb-4.0.3)
 
-## Using this example
+OneAtlas is an AI-powered internal tools platform designed to empower Product Managers, Engineers, and Operators to build, deploy, and scale internal applications instantly. It uses generative AI to instantly scaffold Next.js applications and Prisma database schemas without writing boilerplate code.
 
-Run the following command:
+This project was built as an internship trial submission.
 
-```sh
-npx create-turbo@latest
+## 🚀 Features & References
+
+We drew inspiration from the industry's best developer tools and AI platforms to create a premium, internship-winning experience:
+
+### 1. Premium Landing Page Architecture
+- **Reference:** Replit, Vercel, Supabase
+- **Features:** 
+  - A dark-themed, glassmorphic Mega Menu navigation bar.
+  - Interactive "Hover-Lift" template cards that respond to user interaction.
+  - A highly polished hero section utilizing custom CSS variable-driven brand gradients.
+  - An infinite-scrolling marquee of supported AI models.
+  - Transparent, toggleable pricing tier cards.
+  - Interactive Role-based tab selection demonstrating the platform's multi-persona utility.
+  - **Enterprise Integrations Array:** Visual demonstration of ecosystem compatibility (PostgreSQL, Slack, GitHub, Auth0).
+  - **Code Export & No Vendor Lock-In Panel:** Dedicated section emphasizing Next.js/Prisma code exportability (a major enterprise selling point).
+
+### 2. Custom Bespoke Login Flow
+- **Reference:** Clerk Auth, Lovable.dev, Linear
+- **Features:** 
+  - A complete departure from "generic AI generated" layouts.
+  - Split-screen layout with an animated mesh-gradient background on the branding side.
+  - Polished Google OAuth Integration (via `next-auth@beta`).
+  - Micro-interactions (like the Google icon scaling on hover).
+
+### 3. Builder / AI Generation Mockup
+- **Reference:** v0 by Vercel, Lovable.dev
+- **Features:** 
+  - The `/builder` route provides a canvas interface showcasing how users will interact with the AI to generate apps.
+  - Interactive prompt textarea.
+  - Sidebar for draggable elements and top navigation for publishing and database connections.
+
+### 4. Complete MVP Scope (Phase 1)
+- **Conversational App Generator:** Generate full-stack Next.js/Prisma code using conversational AI prompts.
+- **CRUD & Dashboard Generation:** Instantly scaffold internal tables, admin panels, and CRMs.
+- **Basic Workflow Support:** A lightweight automation engine for background tasks.
+- **One-Click Deployment:** Automatic deployment of generated apps to isolated subdomains (e.g. `crm.oneatlas.app`).
+- **Multi-Tenant Architecture:** Built from the ground up for B2B with schema isolation.
+- **AI Gateway Abstraction:** Centralized AI routing (OpenAI, Anthropic, DeepSeek) for cost optimization.
+- **Template Library with Live Preview:** A category browser and template grid offering instant previews of generated internal tools.
+
+## 🛠 Tech Stack & Project Structure
+
+This project uses an enterprise-grade Monorepo architecture managed by **Turborepo**.
+
+- **Framework:** Next.js 14+ (App Router)
+- **Styling:** Tailwind CSS v4, Framer Motion, shadcn/ui primitives, Lucide React icons
+- **Auth:** NextAuth (Auth.js) v5
+- **Package Manager:** npm
+
+### Monorepo Layout (`/apps` & `/packages`)
+The files are arranged cleanly in the following order:
+
+```text
+oneatlas/
+├── apps/
+│   ├── web/               # The main public-facing marketing site & auth (Completed)
+│   ├── dashboard/         # The logged-in user's workspace management
+│   ├── builder/           # The actual AI generation canvas app
+│   └── runtime/           # The edge runtime serving the generated user apps
+├── packages/
+│   ├── ai/                # Shared LLM routing and prompt logic
+│   ├── auth/              # Shared authentication session logic
+│   ├── db/                # Shared Prisma client and schemas
+│   ├── ui/                # Shared React component library
+│   └── ts-config/         # Shared TypeScript configs
+└── package.json           # Root workspace configuration
 ```
 
-## What's inside?
+## 🏎 Getting Started
 
-This Turborepo includes the following packages/apps:
+To run the platform locally:
 
-### Apps and Packages
+1. **Install dependencies:**
+   ```bash
+   npm install
+   ```
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+2. **Configure Environment Variables:**
+   Navigate to `apps/web` and create a `.env.local` file:
+   ```env
+   GOOGLE_CLIENT_ID="your_google_client_id"
+   GOOGLE_CLIENT_SECRET="your_google_client_secret"
+   AUTH_SECRET="random_secret_string"
+   ```
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+3. **Start the Development Server:**
+   From the root of the monorepo:
+   ```bash
+   npm run dev
+   ```
+   *Or navigate to `apps/web` and run `npm run dev` directly.*
 
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
-
-```sh
-cd my-turborepo
-turbo build
-```
-
-Without global `turbo`, use your package manager:
-
-```sh
-cd my-turborepo
-npx turbo build
-npm dlx turbo build
-npm exec turbo build
-```
-
-You can build a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
-
-```sh
-turbo build --filter=docs
-```
-
-Without global `turbo`:
-
-```sh
-npx turbo build --filter=docs
-npm exec turbo build --filter=docs
-npm exec turbo build --filter=docs
-```
-
-### Develop
-
-To develop all apps and packages, run the following command:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
-
-```sh
-cd my-turborepo
-turbo dev
-```
-
-Without global `turbo`, use your package manager:
-
-```sh
-cd my-turborepo
-npx turbo dev
-npm exec turbo dev
-npm exec turbo dev
-```
-
-You can develop a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
-
-```sh
-turbo dev --filter=web
-```
-
-Without global `turbo`:
-
-```sh
-npx turbo dev --filter=web
-npm exec turbo dev --filter=web
-npm exec turbo dev --filter=web
-```
-
-### Remote Caching
-
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
-
-Turborepo can use a technique known as [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
-
-```sh
-cd my-turborepo
-turbo login
-```
-
-Without global `turbo`, use your package manager:
-
-```sh
-cd my-turborepo
-npx turbo login
-npm exec turbo login
-npm exec turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
-
-```sh
-turbo link
-```
-
-Without global `turbo`:
-
-```sh
-npx turbo link
-npm exec turbo link
-npm exec turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turborepo.dev/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.dev/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.dev/docs/reference/configuration)
-- [CLI Usage](https://turborepo.dev/docs/reference/command-line-reference)
+4. **View the Application:**
+   Open [http://localhost:3000](http://localhost:3000) to see the main landing page, then navigate to `/login` or click "Start Building" to see the custom-built application views.
