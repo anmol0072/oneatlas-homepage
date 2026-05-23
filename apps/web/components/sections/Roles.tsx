@@ -35,7 +35,7 @@ const ROLES = [
 ];
 
 export function Roles() {
-  const [activeRole, setActiveRole] = useState(ROLES[0].id);
+  const [activeRole, setActiveRole] = useState(ROLES[0]?.id || "");
 
   return (
     <section className="py-24 bg-white border-b border-border-light">
