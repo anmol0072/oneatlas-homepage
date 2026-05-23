@@ -1,11 +1,13 @@
 import Link from "next/link";
 import { ArrowLeft, Construction } from "lucide-react";
 
-export default function FeatureComingSoonPage({ params }: { params: { slug: string } }) {
+export default async function FeatureComingSoonPage({ params }: { params: Promise<{ slug: string }> }) {
+  const resolvedParams = await params;
+  
   // Format the slug to look like a title (e.g., "soc2-compliance" -> "Soc2 Compliance")
-  const title = params.slug
+  const title = resolvedParams.slug
     .split("-")
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
 
   return (
