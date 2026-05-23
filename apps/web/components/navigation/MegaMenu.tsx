@@ -84,25 +84,25 @@ export function MegaMenu() {
                         <div>
                           <h3 className="text-sm font-bold text-foreground-heading mb-4 uppercase tracking-wider">Internal Tools</h3>
                           <ul className="space-y-3">
-                            <li><Link href="#" className="text-sm text-foreground-body hover:text-brand-primary">Admin Dashboards</Link></li>
-                            <li><Link href="#" className="text-sm text-foreground-body hover:text-brand-primary">CRM Interfaces</Link></li>
-                            <li><Link href="#" className="text-sm text-foreground-body hover:text-brand-primary">Inventory Management</Link></li>
+                            <li><Link href="/feature/admin-dashboards" className="text-sm text-foreground-body hover:text-brand-primary">Admin Dashboards</Link></li>
+                            <li><Link href="/feature/crm-interfaces" className="text-sm text-foreground-body hover:text-brand-primary">CRM Interfaces</Link></li>
+                            <li><Link href="/feature/inventory-management" className="text-sm text-foreground-body hover:text-brand-primary">Inventory Management</Link></li>
                           </ul>
                         </div>
                         {/* Column 2 */}
                         <div>
                           <h3 className="text-sm font-bold text-foreground-heading mb-4 uppercase tracking-wider">Workflows</h3>
                           <ul className="space-y-3">
-                            <li><Link href="#" className="text-sm text-foreground-body hover:text-brand-primary">Approval Pipelines</Link></li>
-                            <li><Link href="#" className="text-sm text-foreground-body hover:text-brand-primary">Automated Reporting</Link></li>
-                            <li><Link href="#" className="text-sm text-foreground-body hover:text-brand-primary">Onboarding Flows</Link></li>
+                            <li><Link href="/feature/approval-pipelines" className="text-sm text-foreground-body hover:text-brand-primary">Approval Pipelines</Link></li>
+                            <li><Link href="/feature/automated-reporting" className="text-sm text-foreground-body hover:text-brand-primary">Automated Reporting</Link></li>
+                            <li><Link href="/feature/onboarding-flows" className="text-sm text-foreground-body hover:text-brand-primary">Onboarding Flows</Link></li>
                           </ul>
                         </div>
                         {/* Column 3 */}
                         <div className="bg-background-secondary p-4 rounded-lg">
                           <h3 className="text-sm font-bold text-brand-primary mb-2">Featured Template</h3>
                           <p className="text-xs text-foreground-muted mb-4">Launch a fully functional CRM connected to your Postgres DB in seconds.</p>
-                          <Link href="#" className="text-sm font-medium text-brand-primary flex items-center hover:underline">
+                          <Link href="/templates" className="text-sm font-medium text-brand-primary flex items-center hover:underline">
                             Explore Template <ArrowRight className="ml-1 h-4 w-4" />
                           </Link>
                         </div>
@@ -123,17 +123,17 @@ export function MegaMenu() {
                     >
                       {item.name === "Security" && (
                         <ul className="space-y-3">
-                          <li><Link href="#" className="block text-sm font-medium text-foreground-heading hover:text-brand-primary">SOC2 Compliance <span className="block text-xs text-foreground-muted font-normal mt-0.5">View our certifications</span></Link></li>
-                          <li><Link href="#" className="block text-sm font-medium text-foreground-heading hover:text-brand-primary">Data Privacy <span className="block text-xs text-foreground-muted font-normal mt-0.5">How we handle your data</span></Link></li>
-                          <li><Link href="#" className="block text-sm font-medium text-foreground-heading hover:text-brand-primary">Infrastructure <span className="block text-xs text-foreground-muted font-normal mt-0.5">Isolated VPCs & networking</span></Link></li>
+                          <li><Link href="/feature/soc2-compliance" className="block text-sm font-medium text-foreground-heading hover:text-brand-primary">SOC2 Compliance <span className="block text-xs text-foreground-muted font-normal mt-0.5">View our certifications</span></Link></li>
+                          <li><Link href="/feature/data-privacy" className="block text-sm font-medium text-foreground-heading hover:text-brand-primary">Data Privacy <span className="block text-xs text-foreground-muted font-normal mt-0.5">How we handle your data</span></Link></li>
+                          <li><Link href="/feature/infrastructure" className="block text-sm font-medium text-foreground-heading hover:text-brand-primary">Infrastructure <span className="block text-xs text-foreground-muted font-normal mt-0.5">Isolated VPCs & networking</span></Link></li>
                         </ul>
                       )}
                       
                       {item.name === "Resources" && (
                         <ul className="space-y-3">
-                          <li><Link href="#" className="block text-sm font-medium text-foreground-heading hover:text-brand-primary">Documentation <span className="block text-xs text-foreground-muted font-normal mt-0.5">Guides and tutorials</span></Link></li>
-                          <li><Link href="#" className="block text-sm font-medium text-foreground-heading hover:text-brand-primary">API Reference <span className="block text-xs text-foreground-muted font-normal mt-0.5">REST API endpoints</span></Link></li>
-                          <li><Link href="#" className="block text-sm font-medium text-foreground-heading hover:text-brand-primary">Blog <span className="block text-xs text-foreground-muted font-normal mt-0.5">Latest news and updates</span></Link></li>
+                          <li><Link href="/feature/documentation" className="block text-sm font-medium text-foreground-heading hover:text-brand-primary">Documentation <span className="block text-xs text-foreground-muted font-normal mt-0.5">Guides and tutorials</span></Link></li>
+                          <li><Link href="/feature/api-reference" className="block text-sm font-medium text-foreground-heading hover:text-brand-primary">API Reference <span className="block text-xs text-foreground-muted font-normal mt-0.5">REST API endpoints</span></Link></li>
+                          <li><Link href="/feature/blog" className="block text-sm font-medium text-foreground-heading hover:text-brand-primary">Blog <span className="block text-xs text-foreground-muted font-normal mt-0.5">Latest news and updates</span></Link></li>
                         </ul>
                       )}
                     </motion.div>
