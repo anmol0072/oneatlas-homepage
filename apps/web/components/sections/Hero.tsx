@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Paperclip, Mic, Send, LayoutTemplate, Database, Users, Briefcase, Zap, Settings, ChevronDown, Check, Code, BarChart3 } from "lucide-react";
+import { Paperclip, Mic, Send, LayoutTemplate, Database, Users, Briefcase, Zap, Settings, ChevronDown, Check, Code, BarChart3, FileText, FolderOpen, Cloud } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FloatingDots } from "./FloatingDots";
@@ -31,9 +31,11 @@ const MODELS = [
 
 export function Hero() {
   const router = useRouter();
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [prompt, setPrompt] = useState("");
   const [mode, setMode] = useState<"build" | "plan">("build");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isAttachOpen, setIsAttachOpen] = useState(false);
   const [selectedModel, setSelectedModel] = useState(MODELS[1]);
   const [isGenerating, setIsGenerating] = useState(false);
 
@@ -43,6 +45,24 @@ export function Hero() {
     setTimeout(() => {
       router.push("/builder");
     }, 1500);
+  };
+
+  const handleQuickTemplate = (templateName: string) => {
+    setPrompt(`Build a new ${templateName} that helps me track...`);
+    setIsGenerating(true);
+    setTimeout(() => {
+      router.push("/builder");
+    }, 1500);
+  };
+
+  const handleAttachClick = (type: string) => {
+    setIsAttachOpen(false);
+    if (type === "file" || type === "folder") {
+      fileInputRef.current?.click();
+    } else {
+      // Simulate connecting to a drive
+      alert(`Connecting to ${type}...`);
+    }
   };
 
   return (
@@ -137,9 +157,52 @@ export function Hero() {
             {/* Toolbar */}
             <div className="flex items-center justify-between px-4 pb-3 pt-2 border-t border-border-light/50 relative">
               <div className="flex items-center space-x-4">
-                <button className="p-2 text-foreground-muted hover:bg-background-secondary rounded-full transition-colors">
-                  <Paperclip className="w-5 h-5" />
-                </button>
+                
+                {/* Interactive Attachment Dropdown */}
+                <div className="relative">
+                  <input type="file" ref={fileInputRef} className="hidden" multiple />
+                  <button 
+                    onClick={() => setIsAttachOpen(!isAttachOpen)}
+                    className="p-2 text-foreground-muted hover:bg-background-secondary rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-brand-primary"
+                  >
+                    <Paperclip className="w-5 h-5" />
+                  </button>
+                  
+                  <AnimatePresence>
+                    {isAttachOpen && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                        className="absolute bottom-full mb-2 left-0 w-56 bg-white border border-border-light shadow-2xl rounded-xl p-2 z-50 text-left"
+                      >
+                        <div className="text-xs font-bold text-foreground-muted uppercase tracking-wider mb-2 px-3 pt-2">Attach Files</div>
+                        
+                        <button onClick={() => handleAttachClick("file")} className="w-full flex items-center space-x-3 px-3 py-2 hover:bg-background-secondary rounded-lg transition-colors group">
+                          <FileText className="w-4 h-4 text-brand-primary" />
+                          <span className="text-sm font-bold text-foreground-heading group-hover:text-brand-primary">Upload Document</span>
+                        </button>
+                        
+                        <button onClick={() => handleAttachClick("folder")} className="w-full flex items-center space-x-3 px-3 py-2 hover:bg-background-secondary rounded-lg transition-colors group">
+                          <FolderOpen className="w-4 h-4 text-accent-yellow" />
+                          <span className="text-sm font-bold text-foreground-heading group-hover:text-brand-primary">Upload Folder</span>
+                        </button>
+
+                        <div className="h-px bg-border-light my-1 mx-2" />
+                        
+                        <button onClick={() => handleAttachClick("Google Drive")} className="w-full flex items-center space-x-3 px-3 py-2 hover:bg-background-secondary rounded-lg transition-colors group">
+                          <Cloud className="w-4 h-4 text-accent-cyan" />
+                          <span className="text-sm font-bold text-foreground-heading group-hover:text-brand-primary">Google Drive</span>
+                        </button>
+                        
+                        <button onClick={() => handleAttachClick("Cloud Storage")} className="w-full flex items-center space-x-3 px-3 py-2 hover:bg-background-secondary rounded-lg transition-colors group">
+                          <Database className="w-4 h-4 text-accent-purpleLight" />
+                          <span className="text-sm font-bold text-foreground-heading group-hover:text-brand-primary">Cloud Storage</span>
+                        </button>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
                 
                 {/* Interactive Toggle */}
                 <div className="flex bg-background-secondary rounded-lg p-1">
@@ -171,9 +234,9 @@ export function Hero() {
                   <AnimatePresence>
                     {isDropdownOpen && (
                       <motion.div
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 10 }}
+                        initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 10, scale: 0.95 }}
                         className="absolute bottom-full mb-2 left-0 w-64 bg-white border border-border-light shadow-2xl rounded-xl p-2 z-50 text-left"
                       >
                         <div className="text-xs font-bold text-foreground-muted uppercase tracking-wider mb-2 px-3 pt-2">Select Model</div>
@@ -233,7 +296,7 @@ export function Hero() {
           {APP_TYPES.map((type, i) => (
             <button 
               key={i} 
-              onClick={() => setPrompt(`Build a new ${type.label} that helps me track...`)}
+              onClick={() => handleQuickTemplate(type.label)}
               className="flex flex-col items-center justify-center p-4 bg-white/70 backdrop-blur-md border border-white shadow-xl hover:shadow-2xl rounded-2xl w-32 h-32 hover:-translate-y-2 transition-all duration-300 group"
             >
               <div className={`p-3 rounded-xl bg-white shadow-sm mb-3 ${type.color} group-hover:scale-110 transition-transform`}>
@@ -260,7 +323,7 @@ export function Hero() {
             {EXAMPLES.map((example, i) => (
               <button 
                 key={i} 
-                onClick={() => setPrompt(`Create a ${example} with...`)}
+                onClick={() => handleQuickTemplate(example)}
                 className="px-4 py-2 bg-white/80 border border-border-light hover:border-brand-primary/50 text-foreground-body hover:text-brand-primary text-sm font-bold rounded-full shadow-sm hover:shadow-md transition-all hover:-translate-y-0.5"
               >
                 {example}
