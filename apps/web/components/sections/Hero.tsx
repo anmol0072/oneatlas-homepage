@@ -248,7 +248,7 @@ export function Hero() {
                               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                               className="flex items-center space-x-1 px-3 py-1 bg-background-secondary hover:bg-border-light rounded-md text-xs font-bold text-foreground-heading transition-colors"
                             >
-                              <span>{selectedModel.name}</span>
+                              <span>{selectedModel?.name}</span>
                               <ChevronDown className="w-3 h-3 text-foreground-muted" />
                             </button>
                             <AnimatePresence>
@@ -266,7 +266,7 @@ export function Hero() {
                                       className="w-full flex items-center justify-between px-2 py-1.5 hover:bg-background-secondary rounded-lg text-xs font-bold"
                                     >
                                       {model.name}
-                                      {selectedModel.id === model.id && <Check className="w-3 h-3 text-brand-primary" />}
+                                      {selectedModel?.id === model.id && <Check className="w-3 h-3 text-brand-primary" />}
                                     </button>
                                   ))}
                                 </motion.div>
