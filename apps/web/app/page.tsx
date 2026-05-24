@@ -1,9 +1,10 @@
 import { MegaMenu } from "@/components/navigation/MegaMenu";
 import { Footer } from "@/components/navigation/Footer";
 import { Hero } from "@/components/sections/Hero";
-import { ModelMarquee } from "@/components/sections/ModelMarquee";
-import { HowItWorks } from "@/components/sections/HowItWorks";
+import { FeaturesStrip } from "@/components/sections/FeaturesStrip";
+import { WorkflowSteps } from "@/components/sections/WorkflowSteps";
 import { Templates } from "@/components/sections/Templates";
+import { Testimonials } from "@/components/sections/Testimonials";
 import { Pricing } from "@/components/sections/Pricing";
 import { Roles } from "@/components/sections/Roles";
 import { WhyAtlas } from "@/components/sections/WhyAtlas";
@@ -15,14 +16,15 @@ export default function Home() {
     <main className="flex min-h-screen flex-col items-center justify-between">
       <MegaMenu />
       <Hero />
-      <ModelMarquee />
-      <HowItWorks />
+      <FeaturesStrip />
+      <WorkflowSteps />
       <Integrations />
       <Templates />
       <CodeExport />
       <Roles />
       <Pricing />
       <WhyAtlas />
+      <Testimonials />
       <Footer />
     </main>
   );
