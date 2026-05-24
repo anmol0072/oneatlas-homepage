@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Paperclip, Mic, Send, LayoutTemplate, Database, Users, Briefcase, Zap, Settings, ChevronDown, Check, Code, BarChart3, FileText, FolderOpen, Cloud, Sparkles, Activity, PieChart, TrendingUp, DollarSign } from "lucide-react";
+import { Paperclip, Mic, Send, LayoutTemplate, Database, Users, Briefcase, Zap, Settings, ChevronDown, Check, Code, BarChart3, FileText, FolderOpen, Cloud, Sparkles, Activity, PieChart, TrendingUp, DollarSign, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FloatingDots } from "./FloatingDots";
