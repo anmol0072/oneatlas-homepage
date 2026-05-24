@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Paperclip, Mic, Send, LayoutTemplate, Database, Users, Briefcase, Zap, Settings, ChevronDown, Check, Code, BarChart3, FileText, FolderOpen, Cloud } from "lucide-react";
+import { Paperclip, Mic, Send, LayoutTemplate, Database, Users, Briefcase, Zap, Settings, ChevronDown, Check, Code, BarChart3, FileText, FolderOpen, Cloud, Sparkles, Activity, PieChart, TrendingUp, DollarSign } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FloatingDots } from "./FloatingDots";
@@ -16,39 +16,34 @@ const APP_TYPES = [
   { icon: Settings, label: "Admin Panel", color: "text-accent-yellow" },
 ];
 
-const EXAMPLES = [
-  "Sales CRM", "KPI Dashboard", "Employee onboarding app",
-  "Customer support portal", "Inventory tracker", "Approval Workflow"
-];
-
 const MODELS = [
   { id: "gemini-pro", name: "Gemini 3.1 Pro", provider: "Google" },
   { id: "gemini-flash", name: "Gemini 3 Flash", provider: "Google" },
   { id: "deepseek", name: "DeepSeek V4", provider: "DeepSeek" },
-  { id: "llama", name: "Llama 4 Scout", provider: "Meta" },
-  { id: "mistral", name: "Mistral Small", provider: "Mistral AI" }
 ];
 
 export function Hero() {
   const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [prompt, setPrompt] = useState("");
-  const [mode, setMode] = useState<"build" | "plan">("build");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isAttachOpen, setIsAttachOpen] = useState(false);
   const [selectedModel, setSelectedModel] = useState(MODELS[1]);
   const [isGenerating, setIsGenerating] = useState(false);
+  
+  // Simulated chart data points
+  const [chartBars, setChartBars] = useState([40, 70, 45, 90, 65, 85, 100, 50, 75]);
+
+  // Animate the chart bars randomly to look alive
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setChartBars(prev => prev.map(val => Math.max(20, Math.min(100, val + (Math.random() * 20 - 10)))));
+    }, 2000);
+    return () => clearInterval(interval);
+  }, []);
 
   const handleGenerate = () => {
     if (!prompt.trim()) return;
-    setIsGenerating(true);
-    setTimeout(() => {
-      router.push("/builder");
-    }, 1500);
-  };
-
-  const handleQuickTemplate = (templateName: string) => {
-    setPrompt(`Build a new ${templateName} that helps me track...`);
     setIsGenerating(true);
     setTimeout(() => {
       router.push("/builder");
@@ -59,9 +54,6 @@ export function Hero() {
     setIsAttachOpen(false);
     if (type === "file" || type === "folder") {
       fileInputRef.current?.click();
-    } else {
-      // Simulate connecting to a drive
-      alert(`Connecting to ${type}...`);
     }
   };
 
@@ -69,269 +61,243 @@ export function Hero() {
     <section className="relative pt-32 pb-20 lg:pt-40 lg:pb-32 overflow-hidden bg-background-main min-h-screen flex items-center">
       <FloatingDots />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full text-center">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
         
-        {/* Top Badge */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="inline-flex items-center space-x-2 bg-white/60 backdrop-blur-md border border-border-light rounded-full px-4 py-1.5 mb-8 shadow-sm"
-        >
-          <span className="flex h-2 w-2 rounded-full bg-brand-primary"></span>
-          <span className="text-sm font-medium text-brand-primary">Now in public beta</span>
-        </motion.div>
-
-        {/* Headlines */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-        >
-          <h1 className="text-6xl md:text-8xl font-black tracking-tighter text-foreground-heading mb-6">
-            Where ideas become <span className="text-transparent bg-clip-text bg-brand-gradient">tools</span>
-          </h1>
-          <p className="text-xl text-foreground-body mb-16 max-w-3xl mx-auto font-medium">
-            Describe what your team needs. OneAtlas generates a production-ready internal tool and deploys it instantly.
-          </p>
-        </motion.div>
-
-        {/* Centerpiece: AI Prompt Box + Floating Sides */}
-        <div className="relative max-w-6xl mx-auto">
+        <div className="grid lg:grid-cols-12 gap-12 items-center">
           
-          {/* Left Floating Element (Fills empty side) */}
-          <motion.div
-            initial={{ opacity: 0, x: -50, rotate: -10 }}
-            animate={{ opacity: 1, x: 0, rotate: -4 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-            className="hidden lg:flex absolute -left-12 top-4 flex-col bg-white/80 backdrop-blur-xl border border-border-light shadow-2xl rounded-2xl p-4 w-64 z-0"
-          >
-            <div className="flex items-center space-x-2 mb-3">
-              <Code className="w-5 h-5 text-brand-primary" />
-              <span className="text-sm font-bold text-foreground-heading">Postgres Schema</span>
-            </div>
-            <div className="space-y-2">
-              <div className="h-2 bg-border-light rounded w-full" />
-              <div className="h-2 bg-border-light rounded w-4/5" />
-              <div className="h-2 bg-brand-primary/20 rounded w-full" />
-              <div className="h-2 bg-border-light rounded w-2/3" />
-            </div>
-          </motion.div>
+          {/* Left Text Column */}
+          <div className="lg:col-span-5 text-left z-20">
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="inline-flex items-center space-x-2 bg-white/60 backdrop-blur-md border border-border-light rounded-full px-4 py-1.5 mb-8 shadow-sm"
+            >
+              <span className="flex h-2 w-2 rounded-full bg-brand-primary"></span>
+              <span className="text-sm font-medium text-brand-primary">Antigravity Engine 2.0</span>
+            </motion.div>
 
-          {/* Right Floating Element (Fills empty side) */}
-          <motion.div
-            initial={{ opacity: 0, x: 50, rotate: 10 }}
-            animate={{ opacity: 1, x: 0, rotate: 4 }}
-            transition={{ duration: 0.8, delay: 0.7 }}
-            className="hidden lg:flex absolute -right-12 top-12 flex-col bg-white/80 backdrop-blur-xl border border-border-light shadow-2xl rounded-2xl p-4 w-64 z-0"
-          >
-            <div className="flex items-center space-x-2 mb-3">
-              <BarChart3 className="w-5 h-5 text-accent-teal" />
-              <span className="text-sm font-bold text-foreground-heading">Live Preview</span>
-            </div>
-            <div className="flex space-x-2 mb-2">
-              <div className="h-8 w-8 bg-border-light rounded-full" />
-              <div className="flex-1 space-y-1">
-                <div className="h-3 bg-border-light rounded w-full" />
-                <div className="h-2 bg-border-light rounded w-1/2" />
-              </div>
-            </div>
-            <div className="h-16 bg-accent-teal/10 rounded-lg border border-accent-teal/20" />
-          </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+            >
+              <h1 className="text-5xl md:text-7xl font-black tracking-tighter text-foreground-heading mb-6 leading-[1.1]">
+                Command your <br/>
+                <span className="text-transparent bg-clip-text bg-brand-gradient">software empire.</span>
+              </h1>
+              <p className="text-xl text-foreground-body mb-10 font-medium leading-relaxed max-w-lg">
+                Stop copying templates. Type what you need, and OneAtlas writes the code, spins up the database, and deploys a completely bespoke application in seconds.
+              </p>
+            </motion.div>
 
-          {/* AI Prompt Box (Main) */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="relative z-20 max-w-4xl mx-auto bg-white/85 backdrop-blur-2xl border-2 border-white shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] rounded-3xl p-2 focus-within:ring-4 focus-within:ring-brand-primary/20 focus-within:border-brand-primary/30 transition-all duration-300"
-          >
-            <div className="p-5">
-              <textarea
-                value={prompt}
-                onChange={(e) => setPrompt(e.target.value)}
-                placeholder="Describe the internal tool your team needs..."
-                className="w-full h-28 bg-transparent border-none resize-none focus:ring-0 text-xl text-foreground-heading placeholder:text-foreground-muted/50 font-medium"
-              />
-            </div>
-            
-            {/* Toolbar */}
-            <div className="flex items-center justify-between px-4 pb-3 pt-2 border-t border-border-light/50 relative">
-              <div className="flex items-center space-x-4">
+            {/* Quick App Types */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="grid grid-cols-3 gap-3 max-w-lg"
+            >
+              {APP_TYPES.map((type, i) => (
+                <button 
+                  key={i} 
+                  onClick={() => {
+                    setPrompt(`Initialize a ${type.label} tailored for...`);
+                  }}
+                  className="flex flex-col items-start p-3 bg-white/50 backdrop-blur-sm border border-border-light hover:border-brand-primary/50 shadow-sm hover:shadow-md rounded-xl transition-all group"
+                >
+                  <type.icon className={`w-5 h-5 mb-2 ${type.color} group-hover:scale-110 transition-transform`} />
+                  <span className="text-xs font-bold text-foreground-heading text-left leading-tight">
+                    {type.label}
+                  </span>
+                </button>
+              ))}
+            </motion.div>
+          </div>
+
+          {/* Right Interface Column (The Unique Custom Dashboard) */}
+          <div className="lg:col-span-7 relative z-20 mt-12 lg:mt-0">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, x: 20 }}
+              animate={{ opacity: 1, scale: 1, x: 0 }}
+              transition={{ duration: 0.7, delay: 0.4 }}
+              className="relative w-full"
+            >
+              {/* Background Glow */}
+              <div className="absolute inset-0 bg-brand-primary opacity-5 blur-[100px] rounded-full" />
+              
+              {/* The Studio Window */}
+              <div className="relative bg-white/80 backdrop-blur-3xl border border-white shadow-[0_30px_100px_-15px_rgba(99,91,255,0.2)] rounded-3xl overflow-hidden flex flex-col">
                 
-                {/* Interactive Attachment Dropdown */}
-                <div className="relative">
-                  <input type="file" ref={fileInputRef} className="hidden" multiple />
-                  <button 
-                    onClick={() => setIsAttachOpen(!isAttachOpen)}
-                    className="p-2 text-foreground-muted hover:bg-background-secondary rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-brand-primary"
-                  >
-                    <Paperclip className="w-5 h-5" />
-                  </button>
+                {/* Mac Header */}
+                <div className="h-12 bg-white/50 border-b border-border-light/50 flex items-center px-4 justify-between">
+                  <div className="flex space-x-2">
+                    <div className="w-3 h-3 rounded-full bg-red-400 border border-red-500/20" />
+                    <div className="w-3 h-3 rounded-full bg-yellow-400 border border-yellow-500/20" />
+                    <div className="w-3 h-3 rounded-full bg-green-400 border border-green-500/20" />
+                  </div>
+                  <div className="flex bg-white/60 px-3 py-1 rounded-md border border-border-light text-[10px] font-bold text-foreground-muted tracking-widest uppercase">
+                    OneAtlas Studio
+                  </div>
+                  <div className="w-12" /> {/* Spacer for flex centering */}
+                </div>
+
+                {/* The Integrated Dashboard UI */}
+                <div className="p-6 bg-gradient-to-br from-background-secondary/50 to-white/50 flex flex-col gap-6">
                   
-                  <AnimatePresence>
-                    {isAttachOpen && (
-                      <motion.div
-                        initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                        className="absolute bottom-full mb-2 left-0 w-56 bg-white border border-border-light shadow-2xl rounded-xl p-2 z-50 text-left"
-                      >
-                        <div className="text-xs font-bold text-foreground-muted uppercase tracking-wider mb-2 px-3 pt-2">Attach Files</div>
-                        
-                        <button onClick={() => handleAttachClick("file")} className="w-full flex items-center space-x-3 px-3 py-2 hover:bg-background-secondary rounded-lg transition-colors group">
-                          <FileText className="w-4 h-4 text-brand-primary" />
-                          <span className="text-sm font-bold text-foreground-heading group-hover:text-brand-primary">Upload Document</span>
-                        </button>
-                        
-                        <button onClick={() => handleAttachClick("folder")} className="w-full flex items-center space-x-3 px-3 py-2 hover:bg-background-secondary rounded-lg transition-colors group">
-                          <FolderOpen className="w-4 h-4 text-accent-yellow" />
-                          <span className="text-sm font-bold text-foreground-heading group-hover:text-brand-primary">Upload Folder</span>
-                        </button>
+                  {/* Top Metric Cards */}
+                  <div className="grid grid-cols-3 gap-4">
+                    <div className="bg-white border border-border-light rounded-2xl p-4 shadow-sm flex flex-col">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-xs font-bold text-foreground-muted uppercase tracking-wider">Total Revenue</span>
+                        <DollarSign className="w-4 h-4 text-accent-green" />
+                      </div>
+                      <span className="text-2xl font-black text-foreground-heading">$124,500</span>
+                      <div className="mt-2 text-xs font-medium text-accent-green flex items-center bg-accent-green/10 w-fit px-2 py-0.5 rounded-full">
+                        <TrendingUp className="w-3 h-3 mr-1" /> +14.2%
+                      </div>
+                    </div>
+                    <div className="bg-white border border-border-light rounded-2xl p-4 shadow-sm flex flex-col">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-xs font-bold text-foreground-muted uppercase tracking-wider">Active Users</span>
+                        <Users className="w-4 h-4 text-brand-primary" />
+                      </div>
+                      <span className="text-2xl font-black text-foreground-heading">8,234</span>
+                      <div className="mt-2 text-xs font-medium text-brand-primary flex items-center bg-brand-primary/10 w-fit px-2 py-0.5 rounded-full">
+                        <Activity className="w-3 h-3 mr-1" /> Stable
+                      </div>
+                    </div>
+                    <div className="bg-brand-dark rounded-2xl p-4 shadow-lg text-white flex flex-col relative overflow-hidden">
+                      <div className="absolute top-0 right-0 w-32 h-32 bg-brand-primary blur-3xl opacity-30 rounded-full" />
+                      <div className="flex items-center justify-between mb-2 relative z-10">
+                        <span className="text-xs font-bold text-white/70 uppercase tracking-wider">System Load</span>
+                        <Zap className="w-4 h-4 text-accent-yellow fill-accent-yellow" />
+                      </div>
+                      <span className="text-2xl font-black relative z-10">24%</span>
+                      <div className="mt-auto h-1 w-full bg-white/20 rounded-full overflow-hidden relative z-10">
+                        <div className="h-full bg-accent-cyan w-1/4 rounded-full" />
+                      </div>
+                    </div>
+                  </div>
 
-                        <div className="h-px bg-border-light my-1 mx-2" />
-                        
-                        <button onClick={() => handleAttachClick("Google Drive")} className="w-full flex items-center space-x-3 px-3 py-2 hover:bg-background-secondary rounded-lg transition-colors group">
-                          <Cloud className="w-4 h-4 text-accent-cyan" />
-                          <span className="text-sm font-bold text-foreground-heading group-hover:text-brand-primary">Google Drive</span>
-                        </button>
-                        
-                        <button onClick={() => handleAttachClick("Cloud Storage")} className="w-full flex items-center space-x-3 px-3 py-2 hover:bg-background-secondary rounded-lg transition-colors group">
-                          <Database className="w-4 h-4 text-accent-purpleLight" />
-                          <span className="text-sm font-bold text-foreground-heading group-hover:text-brand-primary">Cloud Storage</span>
-                        </button>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-                
-                {/* Interactive Toggle */}
-                <div className="flex bg-background-secondary rounded-lg p-1">
-                  <button 
-                    onClick={() => setMode("build")}
-                    className={`px-4 py-1.5 text-sm font-bold rounded-md shadow-sm transition-all ${mode === "build" ? "bg-white text-brand-primary" : "text-foreground-muted hover:text-foreground-heading"}`}
-                  >
-                    Build
-                  </button>
-                  <button 
-                    onClick={() => setMode("plan")}
-                    className={`px-4 py-1.5 text-sm font-bold rounded-md transition-all ${mode === "plan" ? "bg-white text-brand-primary shadow-sm" : "text-foreground-muted hover:text-foreground-heading"}`}
-                  >
-                    Plan
-                  </button>
-                </div>
+                  {/* Main Chart Area */}
+                  <div className="bg-white border border-border-light rounded-2xl p-5 shadow-sm h-48 flex flex-col">
+                    <div className="flex items-center justify-between mb-4">
+                      <span className="text-sm font-bold text-foreground-heading">Performance Analytics</span>
+                      <div className="flex space-x-2">
+                        <div className="w-2 h-2 rounded-full bg-brand-primary" />
+                        <div className="w-2 h-2 rounded-full bg-accent-teal" />
+                      </div>
+                    </div>
+                    <div className="flex-1 flex items-end justify-between gap-2 px-2">
+                      {chartBars.map((height, i) => (
+                        <div key={i} className="w-full flex justify-center group relative cursor-pointer">
+                          <motion.div 
+                            animate={{ height: `${height}%` }}
+                            transition={{ type: "spring", stiffness: 50 }}
+                            className={`w-full max-w-[24px] rounded-t-sm transition-colors ${i % 3 === 0 ? 'bg-accent-teal/80 group-hover:bg-accent-teal' : 'bg-brand-primary/80 group-hover:bg-brand-primary'}`}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
 
-                {/* Interactive Model Selector Dropdown */}
-                <div className="relative">
-                  <button 
-                    onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                    className="flex items-center space-x-2 px-4 py-1.5 border border-border-light bg-white rounded-lg text-sm font-bold text-foreground-heading hover:bg-background-secondary transition-colors"
-                  >
-                    <span className="flex text-accent-cyan"><Zap className="w-4 h-4 fill-current" /></span>
-                    <span>{selectedModel.name}</span>
-                    <ChevronDown className="w-4 h-4 text-foreground-muted" />
-                  </button>
-
-                  <AnimatePresence>
-                    {isDropdownOpen && (
-                      <motion.div
-                        initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                        className="absolute bottom-full mb-2 left-0 w-64 bg-white border border-border-light shadow-2xl rounded-xl p-2 z-50 text-left"
-                      >
-                        <div className="text-xs font-bold text-foreground-muted uppercase tracking-wider mb-2 px-3 pt-2">Select Model</div>
-                        {MODELS.map(model => (
-                          <button
-                            key={model.id}
-                            onClick={() => {
-                              setSelectedModel(model);
-                              setIsDropdownOpen(false);
-                            }}
-                            className="w-full flex items-center justify-between px-3 py-2 hover:bg-background-secondary rounded-lg transition-colors group"
+                  {/* The Embedded AI Prompt Console */}
+                  <div className="relative mt-2">
+                    <div className="absolute -top-3 left-6 px-3 py-0.5 bg-brand-dark text-white text-[10px] font-bold uppercase tracking-widest rounded-full z-10 shadow-md border border-white/10 flex items-center">
+                      <Sparkles className="w-3 h-3 mr-1 fill-current text-accent-yellow" /> Command Console
+                    </div>
+                    <div className="bg-white border-2 border-brand-primary/20 shadow-xl shadow-brand-primary/10 rounded-2xl p-2 focus-within:border-brand-primary/60 transition-colors relative z-0">
+                      <textarea
+                        value={prompt}
+                        onChange={(e) => setPrompt(e.target.value)}
+                        placeholder="Modify this dashboard by adding a Stripe revenue widget..."
+                        className="w-full h-16 bg-transparent border-none resize-none focus:ring-0 text-lg text-foreground-heading placeholder:text-foreground-muted/60 font-medium px-2 pt-3"
+                      />
+                      
+                      <div className="flex items-center justify-between px-2 pb-1 pt-2 border-t border-border-light/40">
+                        <div className="flex items-center space-x-2">
+                          <div className="relative">
+                            <input type="file" ref={fileInputRef} className="hidden" multiple />
+                            <button 
+                              onClick={() => setIsAttachOpen(!isAttachOpen)}
+                              className="p-1.5 text-foreground-muted hover:bg-background-secondary rounded-md transition-colors"
+                            >
+                              <Paperclip className="w-4 h-4" />
+                            </button>
+                            <AnimatePresence>
+                              {isAttachOpen && (
+                                <motion.div
+                                  initial={{ opacity: 0, y: 5 }}
+                                  animate={{ opacity: 1, y: 0 }}
+                                  exit={{ opacity: 0, y: 5 }}
+                                  className="absolute bottom-full mb-1 left-0 w-48 bg-white border border-border-light shadow-xl rounded-xl p-1.5 z-50 text-left"
+                                >
+                                  <button onClick={() => handleAttachClick("file")} className="w-full flex items-center space-x-2 px-2 py-1.5 hover:bg-background-secondary rounded-lg text-sm font-bold">
+                                    <FileText className="w-4 h-4 text-brand-primary" /> <span>Document</span>
+                                  </button>
+                                  <button onClick={() => handleAttachClick("Google Drive")} className="w-full flex items-center space-x-2 px-2 py-1.5 hover:bg-background-secondary rounded-lg text-sm font-bold">
+                                    <Cloud className="w-4 h-4 text-accent-cyan" /> <span>Google Drive</span>
+                                  </button>
+                                </motion.div>
+                              )}
+                            </AnimatePresence>
+                          </div>
+                          
+                          <div className="relative">
+                            <button 
+                              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                              className="flex items-center space-x-1 px-3 py-1 bg-background-secondary hover:bg-border-light rounded-md text-xs font-bold text-foreground-heading transition-colors"
+                            >
+                              <span>{selectedModel.name}</span>
+                              <ChevronDown className="w-3 h-3 text-foreground-muted" />
+                            </button>
+                            <AnimatePresence>
+                              {isDropdownOpen && (
+                                <motion.div
+                                  initial={{ opacity: 0, y: 5 }}
+                                  animate={{ opacity: 1, y: 0 }}
+                                  exit={{ opacity: 0, y: 5 }}
+                                  className="absolute bottom-full mb-1 left-0 w-48 bg-white border border-border-light shadow-xl rounded-xl p-1.5 z-50 text-left"
+                                >
+                                  {MODELS.map(model => (
+                                    <button
+                                      key={model.id}
+                                      onClick={() => { setSelectedModel(model); setIsDropdownOpen(false); }}
+                                      className="w-full flex items-center justify-between px-2 py-1.5 hover:bg-background-secondary rounded-lg text-xs font-bold"
+                                    >
+                                      {model.name}
+                                      {selectedModel.id === model.id && <Check className="w-3 h-3 text-brand-primary" />}
+                                    </button>
+                                  ))}
+                                </motion.div>
+                              )}
+                            </AnimatePresence>
+                          </div>
+                        </div>
+                        
+                        <div className="flex items-center space-x-2">
+                          <button 
+                            onClick={handleGenerate}
+                            disabled={isGenerating}
+                            className="bg-brand-dark hover:bg-black text-white px-4 py-1.5 rounded-lg text-sm font-bold shadow-md transition-transform hover:scale-105 active:scale-95 flex items-center"
                           >
-                            <div className="flex flex-col">
-                              <span className="text-sm font-bold text-foreground-heading group-hover:text-brand-primary">{model.name}</span>
-                              <span className="text-[10px] text-foreground-muted uppercase">{model.provider}</span>
-                            </div>
-                            {selectedModel.id === model.id && (
-                              <Check className="w-4 h-4 text-accent-green" />
+                            {isGenerating ? (
+                              <Settings className="w-4 h-4 animate-spin" />
+                            ) : (
+                              <>Execute <ArrowRight className="w-4 h-4 ml-1" /></>
                             )}
                           </button>
-                        ))}
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
                 </div>
               </div>
-              
-              <div className="flex items-center space-x-3">
-                <button className="p-2 text-foreground-muted hover:bg-background-secondary rounded-full transition-colors">
-                  <Mic className="w-5 h-5" />
-                </button>
-                <button 
-                  onClick={handleGenerate}
-                  disabled={isGenerating}
-                  className="bg-brand-primary hover:bg-brand-primaryHover text-white p-3 rounded-full shadow-lg shadow-brand-primary/30 transition-transform hover:scale-105 active:scale-95 disabled:opacity-50 flex items-center justify-center"
-                >
-                  {isGenerating ? (
-                    <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 1, ease: "linear" }}>
-                      <Settings className="w-5 h-5" />
-                    </motion.div>
-                  ) : (
-                    <Send className="w-5 h-5" />
-                  )}
-                </button>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-
-        {/* App Types Grid */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          className="mt-12 flex flex-wrap justify-center gap-4 relative z-10"
-        >
-          {APP_TYPES.map((type, i) => (
-            <button 
-              key={i} 
-              onClick={() => handleQuickTemplate(type.label)}
-              className="flex flex-col items-center justify-center p-4 bg-white/70 backdrop-blur-md border border-white shadow-xl hover:shadow-2xl rounded-2xl w-32 h-32 hover:-translate-y-2 transition-all duration-300 group"
-            >
-              <div className={`p-3 rounded-xl bg-white shadow-sm mb-3 ${type.color} group-hover:scale-110 transition-transform`}>
-                <type.icon className="w-7 h-7" />
-              </div>
-              <span className="text-sm font-bold text-foreground-heading text-center leading-tight">
-                {type.label}
-              </span>
-            </button>
-          ))}
-        </motion.div>
-
-        {/* Examples */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.6 }}
-          className="mt-12 relative z-10"
-        >
-          <div className="flex flex-wrap justify-center items-center gap-3">
-            <span className="text-sm font-bold text-foreground-muted flex items-center bg-white/50 px-3 py-1.5 rounded-full border border-border-light">
-              <Zap className="w-4 h-4 mr-1.5 text-accent-yellow fill-accent-yellow" /> Try an example
-            </span>
-            {EXAMPLES.map((example, i) => (
-              <button 
-                key={i} 
-                onClick={() => handleQuickTemplate(example)}
-                className="px-4 py-2 bg-white/80 border border-border-light hover:border-brand-primary/50 text-foreground-body hover:text-brand-primary text-sm font-bold rounded-full shadow-sm hover:shadow-md transition-all hover:-translate-y-0.5"
-              >
-                {example}
-              </button>
-            ))}
+            </motion.div>
           </div>
-        </motion.div>
-
+          
+        </div>
       </div>
     </section>
   );
